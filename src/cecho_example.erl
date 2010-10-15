@@ -258,7 +258,14 @@ helloworld() ->
     cecho:refresh(),
     %% Start the process that will "move" the string
     Mover = spawn(fun() -> mvhello() end),
+    spawn(fun() -> listenresize() end),
     ctrl(Mover).
+
+listenresize() ->
+    cecho:sigwinch(),
+    cecho:endwin(),
+    cecho:initscr(),
+    listenresize().
 
 ctrl(Mover) ->
     %% get key-input
